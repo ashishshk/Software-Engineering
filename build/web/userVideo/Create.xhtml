@@ -1,0 +1,97 @@
+<!--
+Created by Ashish Kotian on 2019.03.31
+Copyright © 2019 Ashish Kotian. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <!-- 
+        ===========================================================================
+        |  Clicking the CREATE button in UserVideos.xhtml displays this Dialog  |
+        |  window for the user to enter the data to create a new Video Entry.     |
+        ===========================================================================
+        -->
+        <p:dialog id="UserVideoCreateDlg" widgetVar="UserVideoCreateDialog" modal="true" 
+                  resizable="false" appendTo="@(body)" header="#{bundle.CreateUserVideoTitle}">
+            
+            <h:form id="UserVideoCreateForm" class="ui-datatable-data">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2" styleClass="createGrid">
+                                 
+                        <p:outputLabel value="#{bundle.CreateUserVideoTitle_title}" for="title" />
+                        <p:inputText id="title" class="inputTextField" value="#{userVideoController.selected.title}" 
+                                     title="#{bundle.CreateUserVideoTitle_title}"  
+                                     requiredMessage="#{bundle.CreateUserVideoRequiredMessage_title}" style="width: 600px;"/>
+
+                        <p:outputLabel value="#{bundle.CreateUserVideoTitle_description}" for="description" />
+                        <p:inputText id="description" class="inputTextField" value="#{userVideoController.selected.description}" 
+                                     title="#{bundle.CreateUserVideoTitle_description}"  
+                                     requiredMessage="#{bundle.CreateUserVideoRequiredMessage_description}" style="width: 600px;"/>
+
+                        <p:outputLabel value="#{bundle.CreateUserVideoTitle_youtubeVideoId}" for="youtubeVideoId" />
+                        <p:inputText id="youtubeVideoId" class="inputTextField" value="#{userVideoController.selected.youtubeVideoId}" 
+                                     title="#{bundle.CreateUserVideoTitle_youtubeVideoId}"  
+                                     requiredMessage="#{bundle.CreateUserVideoRequiredMessage_youtubeVideoId}" style="width: 150px;"/>
+
+                        <p:outputLabel value="#{bundle.CreateUserVideoTitle_duration}" for="duration" />
+                        <p:inputText id="duration" class="inputTextField" value="#{userVideoController.selected.duration}" 
+                                     title="#{bundle.CreateUserVideoTitle_duration}"
+                                     requiredMessage="#{bundle.CreateUserVideoRequiredMessage_duration}" style="width: 150px;"/>
+                        
+                        <p:outputLabel value="#{bundle.CreateUserVideoTitle_datePublished}"   for="datePublished" />
+                        <p:calendar id="datePublished" pattern="MM/dd/yyyy" value="#{userVideoController.selected.datePublished}" title="#{bundle.CreateUserVideoTitle_datePublished}" required="true" requiredMessage="#{bundle.CreateUserVideoRequiredMessage_datePublished}" mode="popup">
+                        </p:calendar>
+                        <h:outputLabel  value="#{bundle.CreateUserVideoTitle_category}" for="category"/> 
+                               
+                         <p:selectOneMenu id="category" value="#{userVideoController.selected.category}" 
+                                          requiredMessage="Please Select the Video Category" style="float:centre;margin-right:2px;width: 200px;" >
+
+                            <f:selectItem itemLabel="Select Video Category"   itemValue="" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="Cars &amp; Vehicles" itemValue="Cars &amp; Vehicles"/>
+                            <f:selectItem itemLabel="Comedy"  itemValue="Comedy"/>
+                            <f:selectItem itemLabel="Education" itemValue="Education"/>
+                            <f:selectItem itemLabel="Entertainment" itemValue="Entertainment"/>
+                            <f:selectItem itemLabel="Film &amp; Animation" itemValue="Film &amp; Animation"/>
+                            <f:selectItem itemLabel="Gaming"  itemValue="Gaming"/>
+                            <f:selectItem itemLabel="How-to &amp; Style"  itemValue="How-to &amp; Style"/>
+                            <f:selectItem itemLabel="Music"  itemValue="Music"/>
+                            <f:selectItem itemLabel="News &amp; Politics"  itemValue="News &amp; Politics"/>
+                            <f:selectItem itemLabel="Non-profits &amp; Activism"  itemValue="Non-profits &amp; Activism"/>
+                            <f:selectItem itemLabel="People &amp; Blogs"  itemValue="People &amp; Blogs"/>
+                            <f:selectItem itemLabel="Pets &amp; Animals"  itemValue="Pets &amp; Animals"/>
+                            <f:selectItem itemLabel="Science &amp; Technology"  itemValue="Science &amp; Technology"/>
+                            <f:selectItem itemLabel="Sports"  itemValue="Sports"/>
+                            <f:selectItem itemLabel="Travel &amp; Events"  itemValue="Travel &amp; Events"/>
+
+                         </p:selectOneMenu> 
+                        </p:panelGrid> 
+                      </h:panelGroup>
+
+                <h:panelGroup>
+                    <br />
+                    <div align="center">
+                        <!-- CREATE button -->
+                        <p:commandButton actionListener="#{userVideoController.create}" value="#{bundle.Create}" 
+                                         icon="fas fa-plus" ajax="false"
+                                         update=":display,:UserVideoListForm,:datalist,:growl" 
+                                         oncomplete="handleSubmit(args,'UserVideoCreateDialog');"/>
+                        &nbsp;
+                        <!-- CANCEL button -->
+                        <p:commandButton value="#{bundle.Cancel}" onclick="PF('UserVideoCreateDialog').hide()" 
+                                         immediate="true" icon="fas fa-ban"/>
+                    </div>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+</html>

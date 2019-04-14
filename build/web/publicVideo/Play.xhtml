@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Created by Ashish Kotian on 2019.03.22
+Copyright © 2019 Ashish Kotian. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <!-- 
+        ==================================================================
+        |  Clicking the Play button in PublicVideos.xhtml displays this  |
+        |  Dialog window showing the selected Recipe's data.             |
+        ==================================================================
+        -->
+        <p:dialog id="PublicVideoPlayDlg" widgetVar="PublicVideoPlayDialog" modal="true" 
+                  resizable="false" appendTo="@(body)" header="#{publicVideoController.selected.title}">
+
+            <h:form id="PublicVideoPlayForm" class="ui-datatable-data">
+                <div align="center">
+                    
+                    
+                    
+                    
+                    <h:panelGroup id="display">
+                        
+                       <div class="responsive-container">
+                        <iframe class="responsive-iframe" 
+                                src="https://www.youtube.com/embed/#{publicVideoController.selected.youtubeVideoId}" 
+                                gesture="media" allow="encrypted-media" allowfullscreen="true" >
+                        </iframe>
+                    </div>
+                        <!--
+                       <div class="video-container">
+                       <iframe width="1200px" height="600px"
+                        src="https://www.youtube.com/embed/#{publicVideoController.selected.youtubeVideoId}">
+                       </iframe> 
+                       </div>
+                        -->
+                       
+                   
+                       
+                        
+                        
+
+                        
+                    </h:panelGroup>
+                    <br />
+                    <h:panelGroup>
+                        <!-- CLOSE button -->
+                        <p:commandButton value="#{bundle.Close}" onclick="PF('PublicVideoPlayDialog').hide()" icon="fas fa-window-close"/>
+                    </h:panelGroup>
+                </div>
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+</html>

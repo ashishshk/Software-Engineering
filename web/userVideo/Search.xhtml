@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Created by Ashish Kotian on 2019.03.30
+Copyright © 2019 Ashish Kotian. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        
+        <!-- 
+        ===========================================================================
+        |  Selecting the UserVideo SEARCH menu option displays this Dialog window   |
+        |  for the user to search a UserVideo by name, diet, health labels and count.  |
+        ===========================================================================
+        -->
+        <p:dialog position="center center" id="UserVideoSearchDlg" widgetVar="UserVideoSearchDialog" 
+                  modal="true" resizable="false" appendTo="@(body)" header="Search Public Videos"  >
+
+            <h:form id="UserVideoSearchForm">  
+                <p:panel id="panel">                
+                    <h:panelGrid id="panelGrid" columns="4">
+                        <table border="0" align="center" cellpadding="10" cellspacing="0">
+                            <tr>
+                        <h:outputLabel value="Search:" style="color:grey "/>
+                        <!-- 
+                        The user can search for a UserVideo with respect to:
+                            - SubString/String within the name of the UserVideo
+                            - Diet Label
+                            - Health Label
+                            - Can choose number of UserVideo to be displayed.
+                        -->
+                        <!-- Search String is provided -->
+                        <p:inputText id="searchString" value="#{userVideoController.searchString}" 
+                                     required="true" requiredMessage="Please Enter a Search String!"
+                                     placeholder="Enter Search String" style="width:200px;float:right;margin-right:4px" >
+                            <f:validateLength minimum="2" />
+                        </p:inputText>
+                        
+                        <!-- Search category is selected here, for specifically Category -->
+                        <p:selectOneMenu id="categoryLabel" value="#{userVideoController.categoryLabel}"
+                                         required="true" requiredMessage="Please Select a Category" style="width:200px;float:right;margin-right:4px" >
+
+                            <f:selectItem itemLabel="Select Category"   itemValue="" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="All" itemValue="All"/>
+                            <f:selectItem itemLabel="Video Title"  itemValue="Video Title"/>
+                            <f:selectItem itemLabel="Video Description" itemValue="Video Description"/>
+                            <f:selectItem itemLabel="Video Category" itemValue="Video Category"/>
+
+                        </p:selectOneMenu>
+                            </tr>
+                       
+                       </table>
+                    </h:panelGrid>
+
+                    <h:panelGroup>
+                        <br /><br />
+                        <div align="center">
+                            <!--
+                            Show the Results page while executing the performSearch() method of the backing bean.
+                            We cannot redirect to show the Results page from the backing bean because:
+                            
+                                (1) This commandButton submits the JSF Request.
+                                (2) Processing of the Request produces Request-Response cycle to obtain the JSON file from the API.
+                                (3) The Response for the first Request is lost.
+                            
+                            Therefore, we redirect to show the Results page on the client side as follows.
+                            The Results page will place a GET Request to get its values from the backing bean's properties.
+                            -->
+                            <p:commandButton value="Search" icon="fas fa-search" 
+                                             update=":growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage" 
+                                             actionListener="#{userVideoController.performSearch()}"
+                                             action="/userVideo/ListUserFiles?faces-redirect=true" 
+                                             onclick="PF('UserVideoSearchDialog').hide()" />
+                            &nbsp;
+                            <!-- CLEAR Button resets data both on client and server side, therefore erases the current state of the data 
+                            
+                            <p:commandButton value="Clear" icon="fas fa-undo" ajax="true"
+                                             actionListener="#{userVideoSearchController.clear()}" immediate="true" >
+                                <p:ajax update="UserVideoSearchForm" resetValues="true" />
+                            </p:commandButton>
+                            -->
+                            &nbsp;
+                            <!-- CANCEL button -->
+                            <p:commandButton value="Cancel" onclick="PF('UserVideoSearchDialog').hide()"    
+                                             icon="fas fa-ban" immediate="true" />
+                            
+                        </div>
+                    </h:panelGroup>
+
+                </p:panel>
+            </h:form> 
+            
+        </p:dialog>
+
+    </ui:composition>
+</html>
